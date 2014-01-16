@@ -11,10 +11,16 @@ Character = (scope) ->
     @stamina += val
 
   @period = ->
-    1000
+    100.0
+
+  @brainLog = ->
+    Math.log(@brain || 1) / Math.log(1.2) || 1
 
   @defaultIncrement = ->
-    Math.log(@brain || 1) / Math.log(1.2) || 1
+    @brainLog() * @period() / 1000
+
+  @defaultIncrementPerS = ->
+    @defaultIncrement() * 1000 / @period()
 
   @conversionRate = ->
     1 / @defaultIncrement()

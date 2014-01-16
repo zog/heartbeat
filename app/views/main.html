@@ -11,11 +11,11 @@
   <h1>'Allo, 'Allo!</h1>
   <p class="lead">
     <img src="images/yeoman.png" alt="I'm Yeoman" ng-click="character.convert()"><br>
-    stamina: {{character.stamina | number:0}}
+    stamina: {{character.stamina | number:1}}
     <br />
-    brain: {{character.brain | number:0}}
+    brain: {{character.brain | number:1}}
     <br />
-    stamina/s: {{character.defaultIncrement() | number:0}}
+    stamina/s: {{character.defaultIncrementPerS() | number:1}}
   </p>
   <p><a class="btn btn-lg btn-success" ng-click="character.incrementStamina(1)">Splendid!</a></p>
 </div>
