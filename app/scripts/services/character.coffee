@@ -26,7 +26,7 @@ Character = (scope) ->
     1 / @defaultIncrement()
 
   @convert = =>
-    @brain += Math.ceil(@stamina * @conversionRate())
+    @brain += @stamina * @conversionRate()
     @stamina = 0
 
   @tick = =>
