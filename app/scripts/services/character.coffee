@@ -6,8 +6,9 @@ Character = (scope, webStorage, bonuses) ->
   @webStorage = webStorage
   @bonuses = bonuses
 
-  @stamina =  @webStorage.get('stamina') || 0
-  @brain =    @webStorage.get('brain') || 0
+  @stamina =      @webStorage.get('stamina') || 0
+  @baseBrain =    @webStorage.get('brain') || 0
+  @brainBonusFactor = 1
 
   @incrementStamina = (val=null) =>
     val = @defaultIncrement() unless val?
@@ -18,18 +19,28 @@ Character = (scope, webStorage, bonuses) ->
     @stamina -= val
     @save()
 
+  @bonusBought = (bonus) =>
+    @decrementStamina bonus.cost
+    @computeBrainBonusFactor()
+
   @period = ->
     100.0
 
   @longPeriod = ->
     10000.0
 
-  @brainFactor = ->
-    factor = Math.log(@brain || 1) / Math.log(1.2) || 1
+  @computeBrainBonusFactor = =>
+    factor = 1
     for bonus in @bonuses
       if bonus.bought
-        factor *= 1 + (bonus.boost.brain_percent / 100 || 0)
-    factor
+        factor += (bonus.boost.brain_percent / 100 || 0)
+    @brainBonusFactor = factor
+
+  @brain = =>
+    @baseBrain * @brainBonusFactor
+
+  @brainFactor = ->
+    Math.log(@brain() || 1) / Math.log(1.2)
 
   @defaultIncrement = ->
     @brainFactor() * @period() / 1000
@@ -38,11 +49,12 @@ Character = (scope, webStorage, bonuses) ->
     @defaultIncrement() * 1000 / @period()
 
   @conversionRate = ->
-    1 / @brainFactor()
+    1 / Math.max(@brainFactor(), 1)
 
   @convert = =>
-    @brain += @stamina * @conversionRate()
+    @baseBrain += @stamina * @conversionRate()
     @stamina = 0
+    @computeBrainBonusFactor()
     @save()
 
   @tick = =>
@@ -60,10 +72,11 @@ Character = (scope, webStorage, bonuses) ->
 
   @save = =>
     @webStorage.add 'stamina', @stamina
-    @webStorage.add 'brain', @brain
+    @webStorage.add 'brain', @baseBrain
 
   @reset = =>
-    @stamina = @brain = 0
+    @stamina = @baseBrain = 0
+    @brainBonusFactor = 1
     for bonus in @bonuses
       bonus.unbuy()
     @save()
@@ -73,6 +86,7 @@ Character = (scope, webStorage, bonuses) ->
       @tick()
     , @period()
 
+  @computeBrainBonusFactor()
   @tack()
 
   self

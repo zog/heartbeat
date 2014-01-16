@@ -12,7 +12,7 @@ Bonus = (data, scope, webStorage) ->
 
   @buy = =>
     @bought = true
-    scope.character.decrementStamina(@cost)
+    scope.character.bonusBought(self)
     @save()
 
   @unbuy = =>

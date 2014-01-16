@@ -13,7 +13,7 @@
     %img{alt: "I'm Yeoman", "ng-click" => "character.convert()", src: "images/yeoman.png"}/
     %ul
       %li stamina: {{ character.stamina | number:1}}
-      %li brain: {{ character.brain | number:1}}
+      %li brain: {{ character.brain() | number:1}} (+{{(character.brainBonusFactor - 1) * 100 | number:0}}%)
       %li stamina/s: {{ character.defaultIncrementPerS() | number:1}}
   %p
     %a.btn.btn-lg.btn-success{"ng-click" => "character.incrementStamina(1)"} Splendid!
