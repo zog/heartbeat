@@ -1,0 +1,16 @@
+[
+  {
+    "id": "super_brain",
+    "name": "super brain",
+    "boost": {
+      "brain_percent": 100
+    }
+  },
+  {
+    "id": "big_brain",
+    "name": "big brain",
+    "boost": {
+      "brain_percent": 20
+    }
+  }
+]

@@ -1,9 +1,10 @@
 'use strict';
 
-Character = (scope, webStorage) ->
+Character = (scope, webStorage, bonuses) ->
   self = this
   @scope = scope
   @webStorage = webStorage
+  @bonuses = bonuses
 
   @stamina =  @webStorage.get('stamina') || 0
   @brain =    @webStorage.get('brain') || 0
@@ -19,11 +20,15 @@ Character = (scope, webStorage) ->
   @longPeriod = ->
     10000.0
 
-  @brainLog = ->
-    Math.log(@brain || 1) / Math.log(1.2) || 1
+  @brainFactor = ->
+    factor = Math.log(@brain || 1) / Math.log(1.2) || 1
+    for bonus in @bonuses
+      if bonus.bought
+        factor *= 1 + (bonus.boost.brain_percent / 100 || 0)
+    factor
 
   @defaultIncrement = ->
-    @brainLog() * @period() / 1000
+    @brainFactor() * @period() / 1000
 
   @defaultIncrementPerS = ->
     @defaultIncrement() * 1000 / @period()
@@ -62,7 +67,7 @@ Character = (scope, webStorage) ->
 
   self
 
-heartbeatServices = angular.module 'heartbeatServices', ['webStorageModule']
+heartbeatServices = angular.module 'heartbeatServices'
 
 heartbeatServices.factory 'Character', ['$rootScope', ($rootScope, webStorage) ->
   Character

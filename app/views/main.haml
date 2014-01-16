@@ -1,0 +1,27 @@
+.header
+  %ul.nav.nav-pills.pull-right
+    %li.active
+      %a{"ng-href" => "#"} Home
+    %li
+      %a{"ng-href" => "#"} About
+    %li
+      %a{"ng-href" => "#"} Contact
+  %h3.text-muted heartbeat
+.jumbotron
+  %h1 'Allo, 'Allo!
+  %p.lead
+    %img{alt: "I'm Yeoman", "ng-click" => "character.convert()", src: "images/yeoman.png"}/
+    %ul
+      %li stamina: {{ character.stamina | number:1}}
+      %li brain: {{ character.brain | number:1}}
+      %li stamina/s: {{ character.defaultIncrementPerS() | number:1}}
+  %p
+    %a.btn.btn-lg.btn-success{"ng-click" => "character.incrementStamina(1)"} Splendid!
+
+  %ul
+    %li{"ng-repeat" => "bonus in bonuses"}
+      {{bonus.name}}
+      %a.btn.btn-success{"ng-click" => "bonus.buy()", "ng-hide" => "bonus.bought"} Buy!
+
+.footer
+  %p ♥ from the Yeoman team

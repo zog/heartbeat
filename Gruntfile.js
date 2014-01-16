@@ -52,6 +52,13 @@ module.exports = function (grunt) {
           livereload: true
         }
       },
+      haml: {
+        files: ['<%= yeoman.app %>/{,*/}*.haml'],
+        tasks: ['haml:dist'],
+        options: {
+          livereload: true
+        }
+      },
       livereload: {
         options: {
           livereload: '<%= connect.options.livereload %>'
@@ -97,7 +104,17 @@ module.exports = function (grunt) {
         }
       }
     },
-
+    haml: {
+      dist: {
+        files: [{
+          expand: true,
+          cwd: '<%= yeoman.app %>',
+          src: '{,*/}*.haml',
+          dest: '.tmp',
+          ext: '.html'
+        }]
+      },
+    },
     // Make sure code styles are up to par and there are no obvious mistakes
     jshint: {
       options: {
@@ -330,6 +347,7 @@ module.exports = function (grunt) {
         src: '{,*/}*.css'
       }
     },
+
 
     // Run some tasks in parallel to speed up the build process
     concurrent: {
