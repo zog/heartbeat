@@ -5,7 +5,8 @@ angular.module('heartbeatApp', [
   'ngResource',
   'ngSanitize',
   'ngRoute',
-  'heartbeatServices'
+  'heartbeatServices',
+  'webStorageModule'
 ])
   .config(function ($routeProvider) {
     $routeProvider
