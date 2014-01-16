@@ -14,5 +14,13 @@
     "boost": {
       "brain_percent": 100
     }
+  },
+  {
+    "id": "recovery",
+    "name": "Recovery (stamina +10%)",
+    "cost": 1000,
+    "boost": {
+      "stamina_percent": 10
+    }
   }
 ]

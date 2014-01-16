@@ -1,29 +1,53 @@
 .header
-  %ul.nav.nav-pills.pull-right
-    %li.active
-      %a{"ng-href" => "#"} Home
-    %li
-      %a{"ng-href" => "#"} About
-    %li
-      %a{"ng-href" => "#"} Contact
+  / %ul.nav.nav-pills.pull-right
+  /   %li.active
+  /     %a{"ng-href" => "#"} Home
+  /   %li
+  /     %a{"ng-href" => "#"} About
+  /   %li
+  /     %a{"ng-href" => "#"} Contact
   %h3.text-muted heartbeat
-.jumbotron
-  %h1 'Allo, 'Allo!
-  %p.lead
-    %img{alt: "I'm Yeoman", "ng-click" => "character.convert()", src: "images/yeoman.png"}/
-    %ul
-      %li stamina: {{ character.stamina | number:1}}
-      %li brain: {{ character.brain() | number:1}} (+{{(character.brainBonusFactor - 1) * 100 | number:0}}%)
-      %li stamina/s: {{ character.defaultIncrementPerS() | number:1}}
-  %p
-    %a.btn.btn-lg.btn-success{"ng-click" => "character.incrementStamina(1)"} Splendid!
-  %p
-    %a.btn.btn-lg.btn-success{"ng-click" => "character.reset()"} Reset!
 
-  %ul
-    %li{"ng-repeat" => "bonus in bonuses", "ng-hide" => "bonus.cost > character.stamina && !bonus.bought"}
-      {{bonus.name}}
-      %a.btn.btn-success{"ng-click" => "bonus.buy()", "ng-hide" => "bonus.bought"} Buy!
+.alert.alert-danger.notification.fade.in{"data-ng-show" => "displayLocationDeletePopup"}
+  %h6 Are you sure you want to reset this game?
+  .form-controls-alert
+    %a.btn{"data-ng-click" => "showResetPopup(false)", href: ""} No
+    %a.btn.btn-danger{"data-ng-click" => "character.reset(); showResetPopup(false)", href: ""} Yes
+
+.actions
+  .btn-group
+    %button.btn.btn-lg.btn-success{"ng-click" => "character.incrementStamina(1)"} Stamina +1
+    %button.btn.btn-lg.btn-success{"ng-click" => "character.incrementStamina(100)"} Stamina +100
+    %button.btn.btn-lg.btn-success{"ng-click" => "character.incrementStamina(1000)"} Stamina +1000
+    %button.btn.btn-lg.btn-danger{"ng-click" => "showResetPopup()"} Reset!
+
+.jumbotron
+  .row
+    %ul.col-md-6.infos
+      %li
+        %strong
+          %i.glyphicon.glyphicon-cutlery
+          stamina
+        {{ character.stamina | number:1}}
+      %li
+        %strong
+          %i.glyphicon.glyphicon-user
+          brain
+        {{ character.brain() | number:1}} (+{{(character.brainBonusFactor - 1) * 100 | number:0}}%)
+      %li
+        %strong
+          %i.glyphicon.glyphicon-refresh
+          stamina/s
+        {{ character.defaultIncrementPerS() | number:1}} (+{{(character.staminaBonusFactor - 1) * 100 | number:0}}%)
+      %li
+        %a{"ng-click" => "character.convert()"} ♥ train my brain !
+    %ul.col-md-6.bonuses
+      %li{"ng-repeat" => "bonus in bonuses", "ng-hide" => "bonus.cost > character.stamina && !bonus.bought"}
+        %a.btn.btn-success{"ng-click" => "bonus.buy()", "ng-hide" => "bonus.bought"} Buy!
+        %a.btn.btn-default{"ng-click" => "bonus.buy()", "ng-show" => "bonus.bought", "disabled" => 'true'} Bought!
+        {{bonus.name}}
+
+
 
 .footer
-  %p ♥ from the Yeoman team
+  %p @zog, @reuno

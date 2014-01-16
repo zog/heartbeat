@@ -9,6 +9,7 @@ Character = (scope, webStorage, bonuses) ->
   @stamina =      @webStorage.get('stamina') || 0
   @baseBrain =    @webStorage.get('brain') || 0
   @brainBonusFactor = 1
+  @staminaBonusFactor = 1
 
   @incrementStamina = (val=null) =>
     val = @defaultIncrement() unless val?
@@ -21,7 +22,7 @@ Character = (scope, webStorage, bonuses) ->
 
   @bonusBought = (bonus) =>
     @decrementStamina bonus.cost
-    @computeBrainBonusFactor()
+    @computeBonusFactors()
 
   @period = ->
     100.0
@@ -29,32 +30,33 @@ Character = (scope, webStorage, bonuses) ->
   @longPeriod = ->
     10000.0
 
-  @computeBrainBonusFactor = =>
-    factor = 1
+  @computeBonusFactors = =>
+    @brainBonusFactor = 1
+    @staminaBonusFactor = 1
     for bonus in @bonuses
       if bonus.bought
-        factor += (bonus.boost.brain_percent / 100 || 0)
-    @brainBonusFactor = factor
+        @brainBonusFactor += (bonus.boost.brain_percent / 100 || 0)
+        @staminaBonusFactor += (bonus.boost.stamina_percent / 100 || 0)
 
   @brain = =>
     @baseBrain * @brainBonusFactor
 
   @brainFactor = ->
-    Math.sqrt(@brain())
+    Math.sqrt(@brain() * 10)
 
   @defaultIncrement = ->
-    @brainFactor() * @period() / 1000
+    @brainFactor() * @period() / 1000 * @staminaBonusFactor
 
   @defaultIncrementPerS = ->
     @defaultIncrement() * 1000 / @period()
 
   @conversionRate = ->
-    1 / Math.max(@brainFactor(), 1)
+    0.1 / Math.max(@brainFactor(), 1)
 
   @convert = =>
     @baseBrain += @stamina * @conversionRate()
     @stamina = 0
-    @computeBrainBonusFactor()
+    @computeBonusFactors()
     @save()
 
   @tick = =>
@@ -76,7 +78,7 @@ Character = (scope, webStorage, bonuses) ->
 
   @reset = =>
     @stamina = @baseBrain = 0
-    @brainBonusFactor = 1
+    @brainBonusFactor = @staminaBonusFactor = 1
     for bonus in @bonuses
       bonus.unbuy()
     @save()
@@ -86,7 +88,7 @@ Character = (scope, webStorage, bonuses) ->
       @tick()
     , @period()
 
-  @computeBrainBonusFactor()
+  @computeBonusFactors()
   @tack()
 
   self

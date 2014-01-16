@@ -8,6 +8,10 @@ angular.module('heartbeatApp')
         bonuses.push new Bonus bonus, $scope, webStorage
       $scope.bonuses = bonuses
       $scope.character = new Character $scope, webStorage, bonuses
-
+      $scope.showResetPopup = (options=true) =>
+        if options
+            $scope.displayLocationDeletePopup = true
+        else
+            $scope.displayLocationDeletePopup = false
   ])
 
