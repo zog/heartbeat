@@ -40,7 +40,7 @@ Character = (scope, webStorage, bonuses) ->
     @baseBrain * @brainBonusFactor
 
   @brainFactor = ->
-    Math.log(@brain() || 1) / Math.log(1.2)
+    Math.sqrt(@brain())
 
   @defaultIncrement = ->
     @brainFactor() * @period() / 1000
