@@ -11,8 +11,12 @@ Bonus = (data, scope, webStorage) ->
   @bought = @webStorage.get('bonus[' + @id + ']') || false
 
   @buy = =>
-    console.log "bought " + @name
     @bought = true
+    scope.character.decrementStamina(@cost)
+    @save()
+
+  @unbuy = =>
+    @bought = false
     @save()
 
   @save = =>

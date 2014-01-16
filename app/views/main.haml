@@ -17,9 +17,11 @@
       %li stamina/s: {{ character.defaultIncrementPerS() | number:1}}
   %p
     %a.btn.btn-lg.btn-success{"ng-click" => "character.incrementStamina(1)"} Splendid!
+  %p
+    %a.btn.btn-lg.btn-success{"ng-click" => "character.reset()"} Reset!
 
   %ul
-    %li{"ng-repeat" => "bonus in bonuses"}
+    %li{"ng-repeat" => "bonus in bonuses", "ng-hide" => "bonus.cost > character.stamina && !bonus.bought"}
       {{bonus.name}}
       %a.btn.btn-success{"ng-click" => "bonus.buy()", "ng-hide" => "bonus.bought"} Buy!
 

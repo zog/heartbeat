@@ -14,6 +14,10 @@ Character = (scope, webStorage, bonuses) ->
     @stamina += val
     @save()
 
+  @decrementStamina = (val) =>
+    @stamina -= val
+    @save()
+
   @period = ->
     100.0
 
@@ -34,7 +38,7 @@ Character = (scope, webStorage, bonuses) ->
     @defaultIncrement() * 1000 / @period()
 
   @conversionRate = ->
-    1 / @defaultIncrement()
+    1 / @brainFactor()
 
   @convert = =>
     @brain += @stamina * @conversionRate()
@@ -57,6 +61,12 @@ Character = (scope, webStorage, bonuses) ->
   @save = =>
     @webStorage.add 'stamina', @stamina
     @webStorage.add 'brain', @brain
+
+  @reset = =>
+    @stamina = @brain = 0
+    for bonus in @bonuses
+      bonus.unbuy()
+    @save()
 
   # We cannot call `tick` because of the $apply
   setTimeout =>
