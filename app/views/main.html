@@ -1,0 +1,25 @@
+<div class="header">
+  <ul class="nav nav-pills pull-right">
+    <li class="active"><a ng-href="#">Home</a></li>
+    <li><a ng-href="#">About</a></li>
+    <li><a ng-href="#">Contact</a></li>
+  </ul>
+  <h3 class="text-muted">heartbeat</h3>
+</div>
+
+<div class="jumbotron">
+  <h1>'Allo, 'Allo!</h1>
+  <p class="lead">
+    <img src="images/yeoman.png" alt="I'm Yeoman" ng-click="character.convert()"><br>
+    stamina: {{character.stamina | number:0}}
+    <br />
+    brain: {{character.brain | number:0}}
+    <br />
+    stamina/s: {{character.defaultIncrement() | number:0}}
+  </p>
+  <p><a class="btn btn-lg btn-success" ng-click="character.incrementStamina(1)">Splendid!</a></p>
+</div>
+
+<div class="footer">
+  <p>♥ from the Yeoman team</p>
+</div>
