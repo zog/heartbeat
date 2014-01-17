@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "dependencies": {
     "gzippo": "~0.2.0",
-    "express": "~3.4.8"
+    "express": "~3.4.8",
+    "grunt": "~0.4.2"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
@@ -50,7 +51,6 @@
     "node": ">=0.8.0"
   },
   "scripts": {
-    "test": "grunt test",
-    "postinstall": "echo postinstall time; ./node_modules/grunt/bin/grunt build"
+    "test": "grunt test"
   }
 }
