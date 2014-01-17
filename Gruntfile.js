@@ -321,19 +321,6 @@ module.exports = function (grunt) {
       dist: {
         files: [{
           expand: true,
-          dest: '<%= yeoman.dist %>',
-          cwd: 'heroku',
-          src: '*',
-          rename: function (dest, src) {
-            var path = require('path');
-            if (src === 'distpackage.json') {
-              return path.join(dest, 'package.json');
-            }
-            return path.join(dest, src);
-          }
-          },
-          {
-          expand: true,
           dot: true,
           cwd: '<%= yeoman.app %>',
           dest: '<%= yeoman.dist %>',
@@ -341,6 +328,7 @@ module.exports = function (grunt) {
             '*.{ico,png,txt}',
             '.htaccess',
             '*.html',
+            'data/*',
             'views/{,*/}*.html',
             'bower_components/**/*',
             'images/{,*/}*.{webp}',
@@ -351,6 +339,11 @@ module.exports = function (grunt) {
           cwd: '.tmp/images',
           dest: '<%= yeoman.dist %>/images',
           src: ['generated/*']
+        }, {
+          expand: true,
+          cwd: '.tmp/views',
+          dest: '<%= yeoman.dist %>/views',
+          src: ['{,*/}*.html']
         }]
       },
       styles: {
@@ -447,8 +440,10 @@ module.exports = function (grunt) {
     'useminPrepare',
     'concurrent:dist',
     'autoprefixer',
+    'coffee',
     'concat',
     'ngmin',
+    'haml',
     'copy:dist',
     'cdnify',
     'cssmin',
