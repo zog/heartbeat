@@ -1,1 +1,0 @@
-"use strict";angular.module("heartbeatApp",["ngCookies","ngResource","ngSanitize","ngRoute","heartbeatServices","webStorageModule"]).config(["$routeProvider",function(a){a.when("/",{templateUrl:"views/main.html",controller:"MainCtrl"}).otherwise({redirectTo:"/"})}]);
