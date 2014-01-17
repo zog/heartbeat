@@ -6,7 +6,7 @@
     "express": "~3.4.8",
     "grunt": "~0.4.2",
     "grunt-contrib": "*",
-    "load-grunt-tasks": "~0.2.0",
+    "load-grunt-tasks": "~0.2.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
