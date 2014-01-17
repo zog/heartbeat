@@ -464,5 +464,22 @@ module.exports = function (grunt) {
     'build'
   ]);
 
-  grunt.registerTask('heroku', 'clean less mincss uglify');
+  grunt.registerTask('heroku', [
+    'clean:dist',
+    'bower-install',
+    'useminPrepare',
+    'concurrent:dist',
+    'autoprefixer',
+    'coffee',
+    'concat',
+    'ngmin',
+    'haml',
+    'copy:dist',
+    'cdnify',
+    'cssmin',
+    'uglify',
+    'rev',
+    'usemin',
+    'htmlmin'
+  ]);
 };
