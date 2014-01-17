@@ -42,7 +42,7 @@
       %li
         %a{"ng-click" => "character.convert()"} ♥ train my brain !
     %ul.col-md-6.bonuses
-      %li{"ng-repeat" => "bonus in bonuses", "ng-hide" => "bonus.cost > character.stamina && !bonus.bought"}
+      %li{"ng-repeat" => "bonus in bonuses", "ng-show" => "bonus.buyable() || bonus.bought"}
         %a.btn.btn-success{"ng-click" => "bonus.buy()", "ng-hide" => "bonus.bought"} Buy!
         %a.btn.btn-default{"ng-click" => "bonus.buy()", "ng-show" => "bonus.bought", "disabled" => 'true'} Bought!
         {{bonus.name}}

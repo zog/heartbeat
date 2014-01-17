@@ -30,6 +30,11 @@ Character = (scope, webStorage, bonuses) ->
   @longPeriod = ->
     10000.0
 
+  @bonus = (id) =>
+    for bonus in @bonuses
+      return bonus if bonus.id == id
+    null
+
   @computeBonusFactors = =>
     @brainBonusFactor = 1
     @staminaBonusFactor = 1

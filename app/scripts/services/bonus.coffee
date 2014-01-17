@@ -10,6 +10,9 @@ Bonus = (data, scope, webStorage) ->
 
   @bought = @webStorage.get('bonus[' + @id + ']') || false
 
+  @character = =>
+    @scope.character
+
   @buy = =>
     @bought = true
     scope.character.bonusBought(self)
@@ -21,6 +24,12 @@ Bonus = (data, scope, webStorage) ->
 
   @save = =>
     @webStorage.add 'bonus[' + @id + ']', @bought
+
+  @buyable = =>
+    res = @cost < @character().stamina && !@bought
+    for needed in @needs || []
+      res &&= @character().bonus(needed).bought
+    res
 
   self
 

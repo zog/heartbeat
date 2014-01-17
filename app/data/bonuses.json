@@ -13,7 +13,8 @@
     "cost": 1000,
     "boost": {
       "brain_percent": 100
-    }
+    },
+    "needs": ["big_brain"]
   },
   {
     "id": "recovery",
