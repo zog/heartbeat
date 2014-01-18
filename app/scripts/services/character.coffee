@@ -1,10 +1,11 @@
 'use strict';
 
-Character = (scope, webStorage, bonuses) ->
+Character = (scope, webStorage) ->
   self = this
   @scope = scope
   @webStorage = webStorage
-  @bonuses = bonuses
+  @bonuses = []
+  @bodyParts = []
 
   @stamina =      @webStorage.get('stamina') || 0
   @baseBrain =    @webStorage.get('brain') || 0
@@ -24,6 +25,10 @@ Character = (scope, webStorage, bonuses) ->
     @decrementStamina bonus.cost
     @computeBonusFactors()
 
+  @bodyPartBought = (part) =>
+    @decrementStamina part.cost
+    @computeBonusFactors()
+
   @period = ->
     100.0
 
@@ -35,6 +40,11 @@ Character = (scope, webStorage, bonuses) ->
       return bonus if bonus.id == id
     null
 
+   @bodyPart = (id) =>
+    for part in @bodyParts
+      return part if part.id == id
+    null
+
   @computeBonusFactors = =>
     @brainBonusFactor = 1
     @staminaBonusFactor = 1
@@ -42,6 +52,10 @@ Character = (scope, webStorage, bonuses) ->
       if bonus.bought
         @brainBonusFactor += (bonus.boost.brain_percent / 100 || 0)
         @staminaBonusFactor += (bonus.boost.stamina_percent / 100 || 0)
+    for part in @bodyParts
+      if part.bought
+        @brainBonusFactor += (part.boost.brain_percent / 100 || 0)
+        @staminaBonusFactor += (part.boost.stamina_percent / 100 || 0)
 
   @brain = =>
     @baseBrain * @brainBonusFactor
@@ -86,6 +100,8 @@ Character = (scope, webStorage, bonuses) ->
     @brainBonusFactor = @staminaBonusFactor = 1
     for bonus in @bonuses
       bonus.unbuy()
+    for part in @bodyParts
+      part.unbuy()
     @save()
 
   # We cannot call `tick` because of the $apply

@@ -419,6 +419,8 @@ module.exports = function (grunt) {
     grunt.task.run([
       'clean:server',
       'bower-install',
+      'haml',
+      'coffee',
       'concurrent:server',
       'autoprefixer',
       'connect:livereload',

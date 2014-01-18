@@ -1,0 +1,17 @@
+[
+  {
+    "id": "brain",
+    "name": "Brain",
+    "cost": 10
+  },
+  {
+    "id": "lungs",
+    "name": "Lungs",
+    "cost": 1000,
+    "needs": ["brain"],
+    "boost": {
+      "stamina_percent": 10,
+      "brain_percent": 5
+    }
+  }
+]

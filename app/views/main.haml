@@ -23,24 +23,29 @@
 
 .jumbotron
   .row
-    %ul.col-md-6.infos
+    %ul.col-md-12.infos
       %li
         %strong
           %i.glyphicon.glyphicon-cutlery
           stamina
         {{ character.stamina | number:1}}
-      %li
+      %li{"ng-show" => "character.bodyPart('brain').bought"}
         %strong
           %i.glyphicon.glyphicon-user
           brain
         {{ character.brain() | number:1}} (+{{(character.brainBonusFactor - 1) * 100 | number:0}}%)
-      %li
+      %li{"ng-show" => "character.bodyPart('brain').bought"}
         %strong
           %i.glyphicon.glyphicon-refresh
           stamina/s
         {{ character.defaultIncrementPerS() | number:1}} (+{{(character.staminaBonusFactor - 1) * 100 | number:0}}%)
-      %li
+      %li{"ng-show" => "character.bodyPart('brain').bought && (character.brain() > 0 || character.stamina > 0)"}
         %a{"ng-click" => "character.convert()"} ♥ train my brain !
+    %ul.col-md-6.bonuses
+      %li{"ng-repeat" => "part in bodyParts", "ng-show" => "part.buyable() || part.bought"}
+        %a.btn.btn-success{"ng-click" => "part.buy()", "ng-hide" => "part.bought"} Buy!
+        %a.btn.btn-default{"ng-click" => "part.buy()", "ng-show" => "part.bought", "disabled" => 'true'} Bought!
+        {{part.name}}
     %ul.col-md-6.bonuses
       %li{"ng-repeat" => "bonus in bonuses", "ng-show" => "bonus.buyable() || bonus.bought"}
         %a.btn.btn-success{"ng-click" => "bonus.buy()", "ng-hide" => "bonus.bought"} Buy!
