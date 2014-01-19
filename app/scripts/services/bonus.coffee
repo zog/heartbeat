@@ -32,7 +32,7 @@ Bonus = (data, scope, webStorage) ->
     res
 
   @buyable = =>
-    @seeable() && @cost <= @character().stamina
+    @seeable() && @cost <= @character().stamina && !@bought
 
   self
 
