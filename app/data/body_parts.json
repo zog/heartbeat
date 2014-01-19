@@ -2,7 +2,8 @@
   {
     "id": "brain",
     "name": "Brain",
-    "cost": 10
+    "cost": 10,
+    "maxLevel": 1
   },
   {
     "id": "lungs",
@@ -10,8 +11,8 @@
     "cost": 1000,
     "needs": ["brain"],
     "boost": {
-      "stamina_percent": 10,
-      "brain_percent": 5
+      "staminaPercent": 10,
+      "brainPercent": 5
     }
   }
 ]

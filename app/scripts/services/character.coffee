@@ -25,8 +25,8 @@ Character = (scope, webStorage) ->
     @decrementStamina bonus.cost
     @computeBonusFactors()
 
-  @bodyPartBought = (part) =>
-    @decrementStamina part.cost
+  @bodyPartBought = (part, cost) =>
+    @decrementStamina cost
     @computeBonusFactors()
 
   @period = ->
@@ -54,8 +54,8 @@ Character = (scope, webStorage) ->
         @staminaBonusFactor += (bonus.boost.stamina_percent / 100 || 0)
     for part in @bodyParts
       if part.bought
-        @brainBonusFactor += (part.boost.brain_percent / 100 || 0)
-        @staminaBonusFactor += (part.boost.stamina_percent / 100 || 0)
+        @brainBonusFactor += (part.boostBrainPercent() / 100 || 0)
+        @staminaBonusFactor += (part.boostStaminaPercent() / 100 || 0)
 
   @brain = =>
     @baseBrain * @brainBonusFactor

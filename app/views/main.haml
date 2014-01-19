@@ -42,14 +42,16 @@
       %li{"ng-show" => "character.bodyPart('brain').bought && (character.brain() > 0 || character.stamina > 0)"}
         %a{"ng-click" => "character.convert()"} ♥ train my brain !
     %ul.col-md-6.bonuses
-      %li{"ng-repeat" => "part in bodyParts", "ng-show" => "part.buyable() || part.bought"}
-        %a.btn.btn-success{"ng-click" => "part.buy()", "ng-hide" => "part.bought"} Buy!
-        %a.btn.btn-default{"ng-click" => "part.buy()", "ng-show" => "part.bought", "disabled" => 'true'} Bought!
-        {{part.name}}
+      %li{"ng-repeat" => "part in bodyParts", "ng-show" => "part.seeable() || part.bought"}
+        %a.btn.btn-success{"ng-click" => "part.upgrade()", "ng-show" => "part.buyable()"} Ugrade! ({{part.upgradeCost()}})
+        %a.btn.btn-success{"disabled" => "true" , "ng-show" => "!part.buyable() && part.level < part.maxLevel"} Ugrade! ({{part.upgradeCost()}})
+        %a.btn.btn-success{"disabled" => "true" , "ng-show" => "!part.buyable() && part.level >= part.maxLevel"} Max level reached
+        {{part.name}} (Lvl {{part.level}})
     %ul.col-md-6.bonuses
-      %li{"ng-repeat" => "bonus in bonuses", "ng-show" => "bonus.buyable() || bonus.bought"}
-        %a.btn.btn-success{"ng-click" => "bonus.buy()", "ng-hide" => "bonus.bought"} Buy!
-        %a.btn.btn-default{"ng-click" => "bonus.buy()", "ng-show" => "bonus.bought", "disabled" => 'true'} Bought!
+      %li{"ng-repeat" => "bonus in bonuses", "ng-show" => "bonus.seeable() || bonus.bought"}
+        %a.btn.btn-success{"ng-click" => "bonus.buy()", "ng-show" => "bonus.buyable()"} Buy! ({{bonus.cost}})
+        %a.btn.btn-success{"disabled" => 'true', "ng-show" => "!bonus.buyable() && !bonus.bought"} Buy! ({{bonus.cost}})
+        %a.btn.btn-default{"ng-show" => "bonus.bought", "disabled" => 'true'} Bought!
         {{bonus.name}}
 
 

@@ -6,32 +6,49 @@ BodyPart = (data, scope, webStorage) ->
   @webStorage = webStorage
 
   @boost = []
+  @maxLevel = 99
 
   for setting of data
     self[setting] = data[setting]
 
-  @bought = @webStorage.get('body_part[' + @id + ']') || false
+  @level = @webStorage.get('body_part[' + @id + ']') || 0
+  @bought = !!@level
 
   @character = =>
     @scope.character
 
-  @buy = =>
+  @upgradeCost = =>
+    (@level + 1) * (@level + 1) * @cost
+
+  @upgrade = =>
+    cost = @upgradeCost()
     @bought = true
-    scope.character.bodyPartBought(self)
+    @level += 1
+    scope.character.bodyPartBought(self, cost)
     @save()
 
   @unbuy = =>
     @bought = false
+    @level = 0
     @save()
 
-  @save = =>
-    @webStorage.add 'body_part[' + @id + ']', @bought
+  @boostBrainPercent = =>
+    @boost.brainPercent * @level
 
-  @buyable = =>
-    res = @cost <= @character().stamina && !@bought
+  @boostStaminaPercent = =>
+    @boost.staminaPercent * @level
+
+  @save = =>
+    @webStorage.add 'body_part[' + @id + ']', @level
+
+  @seeable = =>
+    res = true
     for needed in @needs || []
       res &&= @character().bodyPart(needed).bought
     res
+
+  @buyable = =>
+    @seeable() && @upgradeCost() <= @character().stamina && @level < @maxLevel
 
   self
 
