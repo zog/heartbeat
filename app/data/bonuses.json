@@ -1,24 +1,24 @@
 [
   {
-    "id": "big_brain",
-    "name": "big brain (brain +20%)",
+    "id": "whip",
+    "name": "Whip (scrambling +20%)",
     "cost": 100,
     "boost": {
       "brain_percent": 20
     }
   },
   {
-    "id": "super_brain",
-    "name": "super brain (brain +100%)",
+    "id": "super_whip",
+    "name": "sSuper Whip (scrambling +100%)",
     "cost": 1000,
     "boost": {
       "brain_percent": 100
     },
-    "needs": ["big_brain"]
+    "needs": ["whip"]
   },
   {
-    "id": "recovery",
-    "name": "Recovery (stamina +10%)",
+    "id": "super_chicken",
+    "name": "Super Chicken (Egg production +10%)",
     "cost": 1000,
     "boost": {
       "stamina_percent": 10

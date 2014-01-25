@@ -1,17 +1,21 @@
 'use strict';
 
-BodyPart = (data, scope, webStorage) ->
+Resource = (data, scope, webStorage) ->
   self = this
   @scope = scope
   @webStorage = webStorage
 
   @boost = []
   @maxLevel = 99
+  @tiles = []
 
   for setting of data
     self[setting] = data[setting]
 
-  @level = @webStorage.get('body_part[' + @id + ']') || 0
+  @stored = @webStorage.get('resource[' + @id + ']') || {}
+  @level  = @stored.level || 0
+  @x  = @stored.x
+  @y  = @stored.y
   @bought = !!@level
 
   @character = =>
@@ -24,7 +28,8 @@ BodyPart = (data, scope, webStorage) ->
     cost = @upgradeCost()
     @bought = true
     @level += 1
-    scope.character.bodyPartBought(self, cost)
+    scope.character.resourceBought(self, cost)
+    @scope.board.addTile self
     @save()
 
   @unbuy = =>
@@ -39,12 +44,12 @@ BodyPart = (data, scope, webStorage) ->
     @boost.staminaPercent * @level
 
   @save = =>
-    @webStorage.add 'body_part[' + @id + ']', @level
+    @webStorage.add 'resource[' + @id + ']', {level: @level}
 
   @seeable = =>
     res = true
     for needed in @needs || []
-      res &&= @character().bodyPart(needed).bought
+      res &&= @character().resource(needed).bought
     res
 
   @buyable = =>
@@ -54,6 +59,6 @@ BodyPart = (data, scope, webStorage) ->
 
 heartbeatServices = angular.module 'heartbeatServices'
 
-heartbeatServices.factory 'BodyPart', ['$rootScope', ($rootScope, webStorage) ->
-  BodyPart
+heartbeatServices.factory 'Resource', ['$rootScope', ($rootScope, webStorage) ->
+  Resource
 ]

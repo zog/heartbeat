@@ -5,7 +5,7 @@ Character = (scope, webStorage) ->
   @scope = scope
   @webStorage = webStorage
   @bonuses = []
-  @bodyParts = []
+  @resources = []
 
   @stamina =      @webStorage.get('stamina') || 0
   @baseBrain =    @webStorage.get('brain') || 0
@@ -25,7 +25,7 @@ Character = (scope, webStorage) ->
     @decrementStamina bonus.cost
     @computeBonusFactors()
 
-  @bodyPartBought = (part, cost) =>
+  @resourceBought = (part, cost) =>
     @decrementStamina cost
     @computeBonusFactors()
 
@@ -40,8 +40,8 @@ Character = (scope, webStorage) ->
       return bonus if bonus.id == id
     null
 
-   @bodyPart = (id) =>
-    for part in @bodyParts
+  @resource = (id) =>
+    for part in @resources
       return part if part.id == id
     null
 
@@ -52,10 +52,10 @@ Character = (scope, webStorage) ->
       if bonus.bought
         @brainBonusFactor += (bonus.boost.brain_percent / 100 || 0)
         @staminaBonusFactor += (bonus.boost.stamina_percent / 100 || 0)
-    for part in @bodyParts
-      if part.bought
-        @brainBonusFactor += (part.boostBrainPercent() / 100 || 0)
-        @staminaBonusFactor += (part.boostStaminaPercent() / 100 || 0)
+    for resource in @resources
+      if resource.bought
+        @brainBonusFactor += (resource.boostBrainPercent() / 100 || 0)
+        @staminaBonusFactor += (resource.boostStaminaPercent() / 100 || 0)
 
   @brain = =>
     @baseBrain * @brainBonusFactor
@@ -100,8 +100,11 @@ Character = (scope, webStorage) ->
     @brainBonusFactor = @staminaBonusFactor = 1
     for bonus in @bonuses
       bonus.unbuy()
-    for part in @bodyParts
+    for part in @resources
       part.unbuy()
+    @scope.board.tiles = []
+    @scope.board.save()
+    @scope.board.maxDepth = 0
     @save()
 
   # We cannot call `tick` because of the $apply

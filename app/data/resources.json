@@ -1,0 +1,17 @@
+[
+  {
+    "id": "chicken",
+    "name": "Chicken",
+    "cost": 10
+  },
+  {
+    "id": "moonwalking",
+    "name": "MonnWalking Chicken",
+    "cost": 100,
+    "needs": ["chicken"],
+    "boost": {
+      "staminaPercent": 10,
+      "brainPercent": 5
+    }
+  }
+]

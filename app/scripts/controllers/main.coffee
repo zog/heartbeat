@@ -1,13 +1,13 @@
 'use strict'
 
 angular.module('heartbeatApp')
-  .controller('MainCtrl', ['$scope', 'Character', 'webStorage', '$http', 'Bonus', 'BodyPart', ($scope, Character, webStorage, $http, Bonus, BodyPart) =>
-    $http.get('data/body_parts.json').success (data) =>
-      bodyParts = []
-      for part in data
-        bodyParts.push new BodyPart part, $scope, webStorage
-      $scope.bodyParts = bodyParts
-      $scope.character.bodyParts = bodyParts
+  .controller('MainCtrl', ['$scope', 'Character', 'webStorage', '$http', 'Bonus', 'Resource', 'Board', ($scope, Character, webStorage, $http, Bonus, Resource, Board) =>
+    $http.get('data/resources.json').success (data) =>
+      resources = []
+      for resource in data
+        resources.push new Resource resource, $scope, webStorage
+      $scope.resources = resources
+      $scope.character.resources = resources
       $scope.character.computeBonusFactors()
 
     $http.get('data/bonuses.json').success (data) =>
@@ -19,6 +19,7 @@ angular.module('heartbeatApp')
       $scope.character.computeBonusFactors()
 
     $scope.character = new Character $scope, webStorage
+    $scope.board = new Board $scope, webStorage
     $scope.showResetPopup = (options=true) =>
       if options
           $scope.displayLocationDeletePopup = true

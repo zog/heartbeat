@@ -16,10 +16,15 @@
 
 .actions
   .btn-group
-    %button.btn.btn-lg.btn-success{"ng-click" => "character.incrementStamina(1)"} Stamina +1
-    %button.btn.btn-lg.btn-success{"ng-click" => "character.incrementStamina(100)"} Stamina +100
-    %button.btn.btn-lg.btn-success{"ng-click" => "character.incrementStamina(1000)"} Stamina +1000
+    %button.btn.btn-lg.btn-success{"ng-click" => "character.incrementStamina(1)"} Eggs +1
+    %button.btn.btn-lg.btn-success{"ng-click" => "character.incrementStamina(100)"} Eggs +100
+    %button.btn.btn-lg.btn-success{"ng-click" => "character.incrementStamina(1000)"} Eggs +1000
     %button.btn.btn-lg.btn-danger{"ng-click" => "showResetPopup()"} Reset!
+
+.window
+  .board
+    .landscape
+    .tile{"ng-repeat" => "tile in board.tiles", "board-tile" => "", "ng-tile" => "tile", "style" => "left: {{tile.left}}px;top: {{tile.top}}px;width: {{tile.width}}px; height: {{tile.height}}px; z-index: {{tile.y}}"}
 
 .jumbotron
   .row
@@ -27,34 +32,32 @@
       %li
         %strong
           %i.glyphicon.glyphicon-cutlery
-          stamina
+          Eggs
         {{ character.stamina | number:1}}
-      %li{"ng-show" => "character.bodyPart('brain').bought"}
+      %li{"ng-show" => "character.bodyresource('brain').bought"}
         %strong
           %i.glyphicon.glyphicon-user
-          brain
+          Scrambled eggs
         {{ character.brain() | number:1}} (+{{(character.brainBonusFactor - 1) * 100 | number:0}}%)
-      %li{"ng-show" => "character.bodyPart('brain').bought"}
+      %li{"ng-show" => "character.resource('brain').bought"}
         %strong
           %i.glyphicon.glyphicon-refresh
-          stamina/s
+          Eggs/s
         {{ character.defaultIncrementPerS() | number:1}} (+{{(character.staminaBonusFactor - 1) * 100 | number:0}}%)
-      %li{"ng-show" => "character.bodyPart('brain').bought && (character.brain() > 0 || character.stamina > 0)"}
+      %li{"ng-show" => "character.resource('brain').bought && (character.brain() > 0 || character.stamina > 0)"}
         %a{"ng-click" => "character.convert()"} ♥ train my brain !
     %ul.col-md-6.bonuses
-      %li{"ng-repeat" => "part in bodyParts", "ng-show" => "part.seeable() || part.bought"}
-        %a.btn.btn-success{"ng-click" => "part.upgrade()", "ng-show" => "part.buyable()"} Ugrade! ({{part.upgradeCost()}})
-        %a.btn.btn-success{"disabled" => "true" , "ng-show" => "!part.buyable() && part.level < part.maxLevel"} Ugrade! ({{part.upgradeCost()}})
-        %a.btn.btn-success{"disabled" => "true" , "ng-show" => "!part.buyable() && part.level >= part.maxLevel"} Max level reached
-        {{part.name}} (Lvl {{part.level}})
+      %li{"ng-repeat" => "resource in resources", "ng-show" => "resource.seeable() || resource.bought"}
+        %a.btn.btn-success{"ng-click" => "resource.upgrade()", "ng-show" => "resource.buyable()"} Ugrade! ({{resource.upgradeCost()}})
+        %a.btn.btn-success{"disabled" => "true" , "ng-show" => "!resource.buyable() && resource.level < resource.maxLevel"} Ugrade! ({{resource.upgradeCost()}})
+        %a.btn.btn-success{"disabled" => "true" , "ng-show" => "!resource.buyable() && resource.level >= resource.maxLevel"} Max level reached
+        {{resource.name}} (Lvl {{resource.level}})
     %ul.col-md-6.bonuses
       %li{"ng-repeat" => "bonus in bonuses", "ng-show" => "bonus.seeable() || bonus.bought"}
         %a.btn.btn-success{"ng-click" => "bonus.buy()", "ng-show" => "bonus.buyable()"} Buy! ({{bonus.cost}})
         %a.btn.btn-success{"disabled" => 'true', "ng-show" => "!bonus.buyable() && !bonus.bought"} Buy! ({{bonus.cost}})
         %a.btn.btn-default{"ng-show" => "bonus.bought", "disabled" => 'true'} Bought!
         {{bonus.name}}
-
-
 
 .footer
   %p @zog, @reuno
