@@ -27,12 +27,13 @@ Board = (scope, webStorage) ->
     @webStorage.add 'board', {tiles: @tiles.map (tile)-> {x: tile.x, y: tile.y, resource: tile.resource_id, level: tile.level}}
 
   stored = @webStorage.get('board') || {}
-  for data in stored.tiles
-    t = new BoardTile(self, null, data)
-    @tiles.push t
-    @maxDepth += 1
-    @resizeWindow t
-    @save()
+  if stored.tiles
+    for data in stored.tiles
+      t = new BoardTile(self, null, data)
+      @tiles.push t
+      @maxDepth += 1
+      @resizeWindow t
+      @save()
 
   self
 
