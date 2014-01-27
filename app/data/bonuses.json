@@ -9,7 +9,7 @@
   },
   {
     "id": "super_whip",
-    "name": "sSuper Whip (scrambling +100%)",
+    "name": "Super Whip (scrambling +100%)",
     "cost": 1000,
     "boost": {
       "brain_percent": 100

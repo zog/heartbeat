@@ -39,12 +39,12 @@
           %i.glyphicon.glyphicon-user
           Scrambled eggs
         {{ character.brain() | number:1}} (+{{(character.brainBonusFactor - 1) * 100 | number:0}}%)
-      %li{"ng-show" => "character.resource('brain').bought"}
+      %li{"ng-show" => "character.resource('whip').bought"}
         %strong
           %i.glyphicon.glyphicon-refresh
           Eggs/s
         {{ character.defaultIncrementPerS() | number:1}} (+{{(character.staminaBonusFactor - 1) * 100 | number:0}}%)
-      %li{"ng-show" => "character.resource('brain').bought && (character.brain() > 0 || character.stamina > 0)"}
+      %li{"ng-show" => "character.resource('whip').bought && (character.brain() > 0 || character.stamina > 0)"}
         %a{"ng-click" => "character.convert()"} ♥ train my brain !
     %ul.col-md-6.bonuses
       %li{"ng-repeat" => "resource in resources", "ng-show" => "resource.seeable() || resource.bought"}
